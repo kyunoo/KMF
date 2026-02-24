@@ -3,6 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>글 작성</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 50px;
+    }
+    input, textarea, select {
+      width: 300px;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background: darkred;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: black;
+    }
+  </style>
 </head>
 <body>
   <a href="/" style="position:fixed;top:10px;right:10px;background:yellow;color:black;padding:5px 10px;text-decoration:none;">홈</a>
@@ -37,7 +63,7 @@
       .then(data => {
         if (data.success) {
           alert("글이 저장되었습니다!");
-          window.location.href = "/community"; // 작성 후 커뮤니티로 돌아가기
+          window.location.href = "/community"; 
         } else {
           alert("에러: " + data.error);
         }
