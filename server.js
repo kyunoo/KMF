@@ -62,3 +62,8 @@ app.get("/write.html", (req, res) => {
 
 // Vercel에서 실행할 때는 listen 대신 export
 module.exports = app;
+
+app.get("/post.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "post.html"));
+});
+
