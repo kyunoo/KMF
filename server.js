@@ -55,12 +55,10 @@ app.get("/community", (req, res) => {
   res.sendFile(path.join(__dirname, "community.html"));
 });
 
-// Vercel에서 실행할 때는 listen 대신 export
-module.exports = app;
-
-const path = require("path");
-
-// write.html 라우트 직접 지정
+// 글 작성 페이지 라우트 추가
 app.get("/write.html", (req, res) => {
   res.sendFile(path.join(__dirname, "write.html"));
 });
+
+// Vercel에서 실행할 때는 listen 대신 export
+module.exports = app;
