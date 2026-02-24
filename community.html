@@ -10,77 +10,98 @@
       color: white;
       margin: 0;
       padding: 0;
+      display: flex;
     }
     header {
-      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: black;
+      color: yellow;
+      text-align: center;
+      padding: 15px;
       font-size: 24px;
       font-weight: bold;
-      text-align: center;
     }
     nav {
-      background: black;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      color: yellow;
-    }
-    .topics {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 30px;
-    }
-    .topic-box {
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 20px;
-      margin: 10px;
+      position: fixed;
+      top: 60px;
+      left: 0;
       width: 200px;
-      text-align: center;
+      background: rgba(255,255,255,0.1);
+      height: 100%;
+      padding-top: 20px;
+    }
+    nav div {
+      padding: 15px;
       cursor: pointer;
     }
-    .topic-box:hover {
-      background: rgba(255,255,255,0.2);
+    nav div:hover {
+      background: rgba(255,255,255,0.3);
     }
-    .write-btn {
+    #content {
+      margin-left: 220px;
+      margin-top: 80px;
+      flex: 1;
+      padding: 20px;
+    }
+    #currentTopic {
+      background: rgba(255,255,255,0.2);
+      padding: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .home-btn {
       position: fixed;
-      bottom: 20px;
+      top: 15px;
       right: 20px;
       background: yellow;
       color: black;
-      padding: 15px 20px;
-      border-radius: 50%;
-      font-weight: bold;
-      cursor: pointer;
+      padding: 8px 15px;
+      border-radius: 5px;
       text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <header>Korean Munich Community</header>
+  <a href="/" class="home-btn">홈</a>
+
   <nav>
-    <a href="/">홈</a>
-    <a href="/community">커뮤니티</a>
-    <a href="/history.html">민헬의 역사</a>
-    <a href="/news.html">민뉴스</a>
+    <div onclick="loadPosts('공지사항')">공지사항</div>
+    <div onclick="loadPosts('뮌유머')">뮌유머</div>
+    <div onclick="loadPosts('경기 및 전술 분석')">경기 및 전술 분석</div>
+    <div onclick="loadPosts('자유 게시판')">자유 게시판</div>
+    <div><a href="/write.html" style="color:white;text-decoration:none;">글 작성</a></div>
   </nav>
 
-  <section class="topics">
-    <div class="topic-box">⚽ 스포츠</div>
-    <div class="topic-box">🎵 음악</div>
-    <div class="topic-box">🍴 음식</div>
-    <div class="topic-box">📚 공부</div>
-    <div class="topic-box">💼 취업</div>
-  </section>
+  <div id="content">
+    <div id="currentTopic">주제를 선택하세요</div>
+    <div id="postList"></div>
+  </div>
 
-  <!-- 글쓰기 버튼 (오른쪽 아래 고정) -->
-  <a href="/write.html" class="write-btn">+</a>
+  <script>
+    function loadPosts(topic) {
+      document.getElementById("currentTopic").innerText = "현재 주제: " + topic;
+      fetch("/api/posts?topic=" + encodeURIComponent(topic))
+        .then(res => res.json())
+        .then(posts => {
+          const list = document.getElementById("postList");
+          list.innerHTML = "";
+          if(posts.length === 0){
+            list.innerHTML = "<p>아직 글이 없습니다.</p>";
+          } else {
+            posts.forEach((p, i) => {
+              const div = document.createElement("div");
+              div.innerHTML = `<strong>${p.title}</strong><br>${p.content}<hr>`;
+              list.appendChild(div);
+            });
+          }
+        });
+    }
+  </script>
 </body>
 </html>
