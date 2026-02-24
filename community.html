@@ -76,6 +76,15 @@
       cursor: pointer;
       text-decoration: none;
     }
+    .post-title {
+      margin: 10px 0;
+      cursor: pointer;
+      padding: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    .post-title:hover {
+      background: rgba(255,255,255,0.2);
+    }
   </style>
 </head>
 <body>
@@ -94,7 +103,7 @@
     <div id="postList"></div>
   </div>
 
-  <!-- 글 작성 버튼 (오른쪽 아래 고정) -->
+  <!-- 글 작성 버튼 -->
   <a href="/write.html" class="write-btn">+</a>
 
   <script>
@@ -110,7 +119,11 @@
           } else {
             posts.forEach((p, i) => {
               const div = document.createElement("div");
-              div.innerHTML = `<strong>${p.title}</strong><br>${p.content}<hr>`;
+              div.className = "post-title";
+              div.innerText = p.title;
+              div.onclick = () => {
+                window.location.href = "/post.html?index=" + i + "&topic=" + encodeURIComponent(topic);
+              };
               list.appendChild(div);
             });
           }
