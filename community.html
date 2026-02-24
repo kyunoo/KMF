@@ -2,16 +2,87 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>커뮤니티</title>
+  <title>Korean Munich Community</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, darkred, black);
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    nav {
+      background: black;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: yellow;
+    }
+    section {
+      margin: 20px;
+    }
+    input, textarea {
+      width: 300px;
+      margin: 5px;
+      padding: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #posts {
+      margin-top: 30px;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .post {
+      border-bottom: 1px solid gray;
+      padding: 10px 0;
+    }
+  </style>
 </head>
 <body>
-  <h1>커뮤니티 글 작성</h1>
-  <input id="title" placeholder="제목"><br>
-  <textarea id="content" placeholder="내용"></textarea><br>
-  <input id="topic" placeholder="주제"><br>
-  <button id="submitBtn">글 작성</button>
+  <header>Korean Munich Community</header>
+  <nav>
+    <a href="/">홈</a>
+    <a href="/community">커뮤니티</a>
+    <a href="/history.html">민헬의 역사</a>
+    <a href="/news.html">민뉴스</a>
+  </nav>
+
+  <section>
+    <h2>글 작성</h2>
+    <input id="title" placeholder="제목"><br>
+    <textarea id="content" placeholder="내용"></textarea><br>
+    <input id="topic" placeholder="주제"><br>
+    <button id="submitBtn">글 작성</button>
+  </section>
+
+  <section id="posts">
+    <h2>글 목록</h2>
+    <div id="postList"></div>
+  </section>
 
   <script>
+    // 글 작성
     document.getElementById("submitBtn").addEventListener("click", () => {
       const title = document.getElementById("title").value;
       const content = document.getElementById("content").value;
@@ -26,6 +97,7 @@
       .then(data => {
         if (data.success) {
           alert("글이 저장되었습니다!");
+          loadPosts(); // 저장 후 목록 새로고침
         } else {
           alert("에러: " + data.error);
         }
@@ -35,6 +107,40 @@
         alert("서버 요청 중 오류 발생");
       });
     });
+
+    // 글 목록 불러오기
+    function loadPosts() {
+      fetch("/api/posts")
+        .then(res => res.json())
+        .then(posts => {
+          const list = document.getElementById("postList");
+          list.innerHTML = "";
+          posts.forEach((p, i) => {
+            const div = document.createElement("div");
+            div.className = "post";
+            div.innerHTML = `<strong>${p.title}</strong> (${p.topic})<br>${p.content}
+              <br><button onclick="deletePost(${i})">삭제</button>`;
+            list.appendChild(div);
+          });
+        });
+    }
+
+    // 글 삭제
+    function deletePost(index) {
+      fetch("/api/posts/" + index, { method: "DELETE" })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert("글이 삭제되었습니다!");
+            loadPosts();
+          } else {
+            alert("에러: " + data.error);
+          }
+        });
+    }
+
+    // 페이지 로드 시 글 목록 불러오기
+    loadPosts();
   </script>
 </body>
 </html>
