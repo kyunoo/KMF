@@ -1,86 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<style>
-body{
-  background:#111;
-  color:white;
-  font-family:Arial, sans-serif;
-  padding:20px;
-}
-input, textarea, select{
-  width:100%;
-  margin-bottom:10px;
-  padding:10px;
-  border-radius:6px;
-  border:none;
-}
-button{
-  padding:10px 20px;
-  margin-right:10px;
-  cursor:pointer;
-  background:#222;
-  color:white;
-  border:none;
-  border-radius:6px;
-}
-button:hover{
-  background:#ff4444;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>글 작성</title>
 </head>
 <body>
+  <h1>글 작성하기</h1>
+  <input id="title" placeholder="제목"><br>
+  <textarea id="content" placeholder="내용"></textarea><br>
+  <input id="topic" placeholder="주제"><br>
+  <button id="submitBtn">작성 완료</button>
 
-<h2>글 작성</h2>
+  <script>
+    document.getElementById("submitBtn").addEventListener("click", () => {
+      const title = document.getElementById("title").value;
+      const content = document.getElementById("content").value;
+      const topic = document.getElementById("topic").value;
 
-<input id="title" placeholder="제목">
-<textarea id="content" placeholder="내용"></textarea>
-
-<!-- 주제 선택 -->
-<select id="topic">
-  <option value="">주제 선택</option>
-  <option value="humor">뮌유머</option>
-  <option value="tactics">경기·전술 토론</option>
-  <option value="free">자유게시판</option>
-</select>
-
-<button onclick="submitPost()">올리기</button>
-<button onclick="cancel()">취소</button>
-
-<script>
-async function submitPost(){
-  let title=document.getElementById("title").value.trim();
-  let content=document.getElementById("content").value.trim();
-  let topic=document.getElementById("topic").value;
-
-  if(!title || !content || !topic){
-    alert("제목, 내용, 주제를 모두 입력해야 합니다.");
-    return;
-  }
-
-  try {
-    const res = await fetch("http://localhost:3000/api/posts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, content, topic })
+      fetch("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content, topic })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("글이 저장되었습니다!");
+          window.location.href = "/community"; // 작성 후 커뮤니티로 돌아가기
+        } else {
+          alert("에러: " + data.error);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("서버 요청 중 오류 발생");
+      });
     });
-
-    if(res.ok){
-      location.href="community.html";
-    } else {
-      const err = await res.json();
-      alert("글 작성 실패: " + (err.error || "알 수 없는 오류"));
-    }
-  } catch(e){
-    alert("서버에 연결할 수 없습니다. 서버가 실행 중인지 확인하세요.");
-  }
-}
-
-function cancel(){
-  location.href="community.html";
-}
-</script>
-
+  </script>
 </body>
 </html>
