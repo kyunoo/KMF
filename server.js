@@ -57,3 +57,10 @@ app.get("/community", (req, res) => {
 
 // Vercel에서 실행할 때는 listen 대신 export
 module.exports = app;
+
+const path = require("path");
+
+// write.html 라우트 직접 지정
+app.get("/write.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "write.html"));
+});
