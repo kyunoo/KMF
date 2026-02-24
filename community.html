@@ -1,169 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<style>
-body{
-  background:#111;
-  color:white;
-  font-family:Arial, sans-serif;
-  display:flex;
-  flex-direction:row;
-  height:100vh;
-  margin:0;
-}
-
-/* 사이드바 */
-.sidebar{
-  width:220px;
-  background:#1a1a1a;
-  padding:20px;
-}
-.sidebar h3{
-  margin-top:0;
-  color:#f00; /* 뮌헨 느낌: 붉은 포인트 */
-}
-.topic{
-  margin:12px 0;
-  padding:8px;
-  cursor:pointer;
-  border-radius:6px;
-  transition:background 0.3s, color 0.3s;
-}
-.topic:hover{
-  background:#333;
-  color:#ff4444; /* 마우스 올리면 붉은색 강조 */
-}
-.topic.active{
-  background:rgba(255,0,0,0.2); /* 투명한 붉은 박스 */
-  border:1px solid #ff4444;
-}
-
-/* 메인 영역 */
-.main{
-  flex:1;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  position:relative;
-}
-.header{
-  font-size:26px;
-  font-weight:bold;
-  margin-bottom:20px;
-  color:#ff0000; /* 뮌헨 레드 */
-}
-.postList{
-  flex:1;
-  overflow-y:auto;
-}
-.post{
-  padding:12px;
-  border-bottom:1px solid #444;
-  cursor:pointer;
-}
-.empty{
-  color:#888;
-  font-style:italic;
-  margin-top:20px;
-}
-.footer{
-  display:flex;
-  justify-content:space-between;
-  margin-top:20px;
-}
-button{
-  padding:10px 20px;
-  cursor:pointer;
-  background:#222;
-  color:white;
-  border:none;
-  border-radius:6px;
-}
-button:hover{
-  background:#ff4444;
-}
-
-/* 글 작성 버튼 */
-.writeBtn{
-  position:absolute;
-  bottom:20px;
-  right:20px;
-  background:#ff0000;
-  color:white;
-  border:none;
-  border-radius:50%;
-  width:60px;
-  height:60px;
-  font-size:14px;
-  cursor:pointer;
-}
-.writeBtn:hover{
-  background:#cc0000;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>커뮤니티</title>
 </head>
-<body onload="loadPosts('notice')">
+<body>
+  <h1>커뮤니티 글 작성</h1>
+  <input id="title" placeholder="제목"><br>
+  <textarea id="content" placeholder="내용"></textarea><br>
+  <input id="topic" placeholder="주제"><br>
+  <button id="submitBtn">글 작성</button>
 
-<div class="sidebar">
-  <h3>커뮤니티 주제</h3>
-  <div id="topic-notice" class="topic" onclick="loadPosts('notice')">공지</div>
-  <div id="topic-humor" class="topic" onclick="loadPosts('humor')">뮌유머</div>
-  <div id="topic-tactics" class="topic" onclick="loadPosts('tactics')">경기·전술 토론</div>
-  <div id="topic-free" class="topic" onclick="loadPosts('free')">자유게시판</div>
-</div>
+  <script>
+    document.getElementById("submitBtn").addEventListener("click", () => {
+      const title = document.getElementById("title").value;
+      const content = document.getElementById("content").value;
+      const topic = document.getElementById("topic").value;
 
-<div class="main">
-  <div class="header">Korean Munich Community</div>
-  <div id="postList" class="postList"></div>
-  <div class="footer">
-    <button onclick="goBack()">이전</button>
-  </div>
-  <button class="writeBtn" onclick="goWrite()">글+</button>
-</div>
-
-<script>
-let currentTopic = null;
-
-async function loadPosts(topic){
-  currentTopic = topic;
-
-  // 모든 주제 버튼에서 active 제거
-  document.querySelectorAll(".topic").forEach(el => el.classList.remove("active"));
-  // 선택된 주제 버튼에 active 추가
-  document.getElementById("topic-"+topic).classList.add("active");
-
-  let postList=document.getElementById("postList");
-  postList.innerHTML="";
-
-  // 서버에서 특정 주제 글 목록 가져오기
-  const res=await fetch("http://localhost:3000/api/posts?topic="+topic);
-  const posts=await res.json();
-
-  if(posts.length===0){
-    postList.innerHTML="<div class='empty'>아직 글이 올라오지 않았습니다</div>";
-    return;
-  }
-
-  posts.forEach((post, index)=>{
-    let div=document.createElement("div");
-    div.className="post";
-    div.innerText=post.title;
-    div.onclick=function(){
-      location.href="post.html?index="+index+"&topic="+topic;
-    };
-    postList.appendChild(div);
-  });
-}
-
-function goWrite(){
-  location.href="write.html?topic="+currentTopic;
-}
-
-function goBack(){
-  history.back();
-}
-</script>
-
+      fetch("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content, topic })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("글이 저장되었습니다!");
+        } else {
+          alert("에러: " + data.error);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("서버 요청 중 오류 발생");
+      });
+    });
+  </script>
 </body>
 </html>
