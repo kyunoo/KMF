@@ -64,6 +64,18 @@
       text-decoration: none;
       font-weight: bold;
     }
+    .write-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: yellow;
+      color: black;
+      padding: 15px 20px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -75,13 +87,15 @@
     <div onclick="loadPosts('뮌유머')">뮌유머</div>
     <div onclick="loadPosts('경기 및 전술 분석')">경기 및 전술 분석</div>
     <div onclick="loadPosts('자유 게시판')">자유 게시판</div>
-    <div><a href="/write.html" style="color:white;text-decoration:none;">글 작성</a></div>
   </nav>
 
   <div id="content">
     <div id="currentTopic">주제를 선택하세요</div>
     <div id="postList"></div>
   </div>
+
+  <!-- 글 작성 버튼 (오른쪽 아래 고정) -->
+  <a href="/write.html" class="write-btn">+</a>
 
   <script>
     function loadPosts(topic) {
