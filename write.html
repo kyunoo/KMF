@@ -19,9 +19,14 @@
 
   <script>
     document.getElementById("submitBtn").addEventListener("click", () => {
-      const title = document.getElementById("title").value;
-      const content = document.getElementById("content").value;
+      const title = document.getElementById("title").value.trim();
+      const content = document.getElementById("content").value.trim();
       const topic = document.getElementById("topic").value;
+
+      if (!title || !content || !topic) {
+        alert("제목, 내용, 주제를 모두 입력하세요!");
+        return;
+      }
 
       fetch("/api/posts", {
         method: "POST",
