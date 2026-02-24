@@ -5,10 +5,16 @@
   <title>글 작성</title>
 </head>
 <body>
+  <a href="/" style="position:fixed;top:10px;right:10px;background:yellow;color:black;padding:5px 10px;text-decoration:none;">홈</a>
   <h1>글 작성하기</h1>
   <input id="title" placeholder="제목"><br>
   <textarea id="content" placeholder="내용"></textarea><br>
-  <input id="topic" placeholder="주제"><br>
+  <select id="topic">
+    <option value="공지사항">공지사항</option>
+    <option value="뮌유머">뮌유머</option>
+    <option value="경기 및 전술 분석">경기 및 전술 분석</option>
+    <option value="자유 게시판">자유 게시판</option>
+  </select><br>
   <button id="submitBtn">작성 완료</button>
 
   <script>
