@@ -50,5 +50,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
+// 커뮤니티 페이지 라우트 추가
+app.get("/community", (req, res) => {
+  res.sendFile(path.join(__dirname, "community.html"));
+});
+
 // Vercel에서 실행할 때는 listen 대신 export
 module.exports = app;
