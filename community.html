@@ -1,205 +1,46 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>커뮤니티</title>
-
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:white;
-}
-
-.top-banner{
-    width:100%;
-    height:180px;
-    background:url("images/kmc.jpg") center/cover no-repeat;
-}
-
-.container{
-    display:flex;
-    padding:20px;
-}
-
-.sidebar{
-    width:220px;
-    border-right:1px solid red;
-    padding-right:15px;
-}
-
-.sidebar div{
-    padding:10px;
-    cursor:pointer;
-    border-bottom:1px solid #eee;
-}
-
-.sidebar div:hover{
-    background:#ffe5e5;
-}
-
-.content{
-    flex:1;
-    padding-left:20px;
-}
-
-.write-btn{
-    text-align:right;
-    margin-bottom:10px;
-}
-
-.write-btn button{
-    padding:6px 12px;
-    background:red;
-    color:white;
-    border:none;
-    cursor:pointer;
-}
-
-.post-row{
-    display:flex;
-    padding:8px 0;
-    border-bottom:1px solid #ddd;
-    cursor:pointer;
-}
-
-.post-date{
-    width:120px;
-    color:gray;
-}
-
-.post-title{
-    flex:1;
-}
-
-.pagination{
-    margin-top:15px;
-    text-align:center;
-}
-
-.pagination span{
-    margin:0 5px;
-    cursor:pointer;
-}
-
-.pagination span:hover{
-    color:red;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>커뮤니티</title>
+  <link rel="stylesheet" href="community.css">
 </head>
-
 <body>
 
-<div class="top-banner"></div>
+  <!-- 상단 배너 (kmc 이미지 자리) -->
+  <div class="banner">
+    <img src="kmc.jpg" alt="커뮤니티 배너">
+  </div>
 
-<div class="container">
+  <div class="container">
+    <!-- 주제 선택 박스 -->
+    <div class="topics">
+      <ul>
+        <li onclick="filterTopic('공지사항')">공지사항</li>
+        <li onclick="filterTopic('전체')">전체</li>
+        <li onclick="filterTopic('뮌유머')">뮌유머</li>
+        <li onclick="filterTopic('경기 및 전술 분석')">경기 및 전술 분석</li>
+        <li onclick="filterTopic('자유 게시판')">자유 게시판</li>
+      </ul>
+    </div>
 
-<div class="sidebar">
-<div onclick="setTopic('공지사항')">공지사항</div>
-<div onclick="setTopic('전체')">전체</div>
-<div onclick="setTopic('뮌유머')">뮌유머</div>
-<div onclick="setTopic('경기 및 전술 분석')">경기 및 전술 분석</div>
-<div onclick="setTopic('자유 게시판')">자유 게시판</div>
-</div>
+    <!-- 글 목록 -->
+    <div class="posts">
+      <div id="post-list">
+        아직 글이 올라오지 않았습니다.
+      </div>
 
-<div class="content">
+      <!-- 페이지네이션 -->
+      <div class="pagination">
+        << < 1,2,3,4,5... > >>
+      </div>
+    </div>
+  </div>
 
-<div class="write-btn">
-<button onclick="location.href='write.html'">글 작성</button>
-<button onclick="location.href='index.html'">홈</button>
-</div>
+  <!-- 글 작성 버튼 -->
+  <button onclick="goWrite()">글 작성</button>
+  <button onclick="goHome()">홈</button>
 
-<div id="postList"></div>
-<div id="pagination" class="pagination"></div>
-
-</div>
-</div>
-
-<script>
-
-let currentTopic = "전체";
-let currentPage = 1;
-const postsPerPage = 10;
-
-function getPosts(){
-    return JSON.parse(localStorage.getItem("posts")) || [];
-}
-
-function setTopic(topic){
-    currentTopic = topic;
-    currentPage = 1;
-    render();
-}
-
-function getFilteredPosts(){
-    const posts = getPosts();
-    if(currentTopic === "전체"){
-        return posts.filter(p => p.topic !== "공지사항");
-    }
-    return posts.filter(p => p.topic === currentTopic);
-}
-
-function render(){
-    const list = document.getElementById("postList");
-    const pagination = document.getElementById("pagination");
-    list.innerHTML = "";
-    pagination.innerHTML = "";
-
-    const filtered = getFilteredPosts();
-
-    if(filtered.length === 0){
-        list.innerHTML = "<p>아직 글이 올라오지 않았습니다.</p>";
-        return;
-    }
-
-    const totalPages = Math.ceil(filtered.length / postsPerPage);
-    const start = (currentPage - 1) * postsPerPage;
-    const pagePosts = filtered.slice(start, start + postsPerPage);
-
-    pagePosts.forEach(post=>{
-        const row = document.createElement("div");
-        row.className = "post-row";
-        row.innerHTML = `
-            <div class="post-date">${post.date}</div>
-            <div class="post-title">${post.title}</div>
-        `;
-        row.onclick = ()=>{
-            localStorage.setItem("selectedPostId", post.id);
-            location.href = "view.html";
-        };
-        list.appendChild(row);
-    });
-
-    if(totalPages > 1){
-
-        if(currentPage > 1){
-            pagination.innerHTML += `<span onclick="goPage(1)"><<</span>`;
-            pagination.innerHTML += `<span onclick="goPage(${currentPage-1})"><</span>`;
-        }
-
-        let startNum = Math.max(1, currentPage - 2);
-        let endNum = Math.min(totalPages, startNum + 4);
-
-        for(let i = startNum; i <= endNum; i++){
-            pagination.innerHTML += `<span onclick="goPage(${i})">${i}</span>`;
-        }
-
-        if(currentPage < totalPages){
-            pagination.innerHTML += `<span onclick="goPage(${currentPage+1})">></span>`;
-            pagination.innerHTML += `<span onclick="goPage(${totalPages})">>></span>`;
-        }
-    }
-}
-
-function goPage(num){
-    currentPage = num;
-    render();
-}
-
-render();
-
-</script>
-<script src="script.js"></script>
+  <script src="community.js"></script>
 </body>
 </html>
-
