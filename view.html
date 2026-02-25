@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>글 보기</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:white;
+}
+
+.container{
+    display:flex;
+    padding:20px;
+    height:100vh;
+}
+
+.sidebar{
+    width:220px;
+    border-right:1px solid red;
+    padding-right:15px;
+}
+
+.sidebar div{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+.content{
+    flex:1;
+    padding-left:20px;
+    display:flex;
+    flex-direction:column;
+}
+
+.post-area{
+    flex:1;
+    overflow-y:auto;
+    border-top:1px solid #ddd;
+    padding-top:10px;
+}
+
+h2{
+    margin-bottom:5px;
+}
+
+.date{
+    text-align:right;
+    color:gray;
+    font-size:14px;
+}
+
+img{
+    max-width:100%;
+    margin-top:10px;
+}
+
+.buttons{
+    margin-top:10px;
+    text-align:right;
+}
+
+button{
+    padding:6px 12px;
+    margin-left:5px;
+    border:none;
+    cursor:pointer;
+}
+
+.red{ background:red; color:white; }
+.gray{ background:gray; color:white; }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+<div>공지사항</div>
+<div>전체</div>
+<div>뮌유머</div>
+<div>경기 및 전술 분석</div>
+<div>자유 게시판</div>
+</div>
+
+<div class="content">
+
+<div class="buttons">
+<button onclick="location.href='write.html'" class="red">글 작성</button>
+<button onclick="location.href='community.html'" class="gray">홈</button>
+</div>
+
+<h2 id="title"></h2>
+<div id="date" class="date"></div>
+
+<div class="post-area" id="contentArea"></div>
+
+<div class="buttons">
+<button onclick="editPost()" class="gray">수정</button>
+<button onclick="deletePost()" class="red">삭제</button>
+</div>
+
+</div>
+</div>
+
+<script>
+
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+const postId = Number(localStorage.getItem("selectedPostId"));
+const post = posts.find(p => p.id === postId);
+
+if(!post){
+    alert("글을 찾을 수 없습니다.");
+    location.href="community.html";
+}
+
+document.getElementById("title").textContent = post.title;
+document.getElementById("date").textContent = post.date;
+
+let contentHTML = `<p>${post.content.replace(/\n/g,"<br>")}</p>`;
+if(post.image){
+    contentHTML += `<img src="${post.image}">`;
+}
+document.getElementById("contentArea").innerHTML = contentHTML;
+
+function deletePost(){
+    const pw = prompt("삭제하려면 관리자 암호를 입력하세요.");
+    if(pw !== "1259"){
+        alert("암호가 틀렸습니다.");
+        return;
+    }
+    posts = posts.filter(p => p.id !== postId);
+    localStorage.setItem("posts", JSON.stringify(posts));
+    location.href="community.html";
+}
+
+function editPost(){
+    const pw = prompt("수정하려면 관리자 암호를 입력하세요.");
+    if(pw !== "1259"){
+        alert("암호가 틀렸습니다.");
+        return;
+    }
+    localStorage.setItem("editPostId", postId);
+    location.href="write.html";
+}
+
+</script>
+
+</body>
+</html>
