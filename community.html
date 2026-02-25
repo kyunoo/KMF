@@ -1,134 +1,207 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Korean Munich Community</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, darkred, black);
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-    }
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: black;
-      color: yellow;
-      text-align: center;
-      padding: 15px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-    nav {
-      position: fixed;
-      top: 60px;
-      left: 0;
-      width: 200px;
-      background: rgba(255,255,255,0.1);
-      height: 100%;
-      padding-top: 20px;
-    }
-    nav div {
-      padding: 15px;
-      cursor: pointer;
-    }
-    nav div:hover {
-      background: rgba(255,255,255,0.3);
-    }
-    #content {
-      margin-left: 220px;
-      margin-top: 80px;
-      flex: 1;
-      padding: 20px;
-    }
-    #currentTopic {
-      background: rgba(255,255,255,0.2);
-      padding: 10px;
-      margin-bottom: 20px;
-      text-align: center;
-      font-weight: bold;
-    }
-    .home-btn {
-      position: fixed;
-      top: 15px;
-      right: 20px;
-      background: yellow;
-      color: black;
-      padding: 8px 15px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .write-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: yellow;
-      color: black;
-      padding: 15px 20px;
-      border-radius: 50%;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .post-title {
-      margin: 10px 0;
-      cursor: pointer;
-      padding: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-    }
-    .post-title:hover {
-      background: rgba(255,255,255,0.2);
-    }
-  </style>
+<meta charset="UTF-8">
+<title>커뮤니티</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:white;
+}
+
+.top-banner{
+    width:100%;
+    height:180px;
+    background:url("images/kmc.jpg") center/cover no-repeat;
+}
+
+.container{
+    display:flex;
+    padding:20px;
+}
+
+/* 왼쪽 주제 */
+.sidebar{
+    width:220px;
+    border-right:1px solid red;
+    padding-right:15px;
+}
+
+.sidebar div{
+    padding:10px;
+    cursor:pointer;
+    border-bottom:1px solid #eee;
+}
+
+.sidebar div:hover{
+    background:#ffe5e5;
+}
+
+/* 오른쪽 글 목록 */
+.content{
+    flex:1;
+    padding-left:20px;
+}
+
+.write-btn{
+    text-align:right;
+    margin-bottom:10px;
+}
+
+.write-btn button{
+    padding:6px 12px;
+    background:red;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+.post-row{
+    display:flex;
+    padding:8px 0;
+    border-bottom:1px solid #ddd;
+    cursor:pointer;
+}
+
+.post-date{
+    width:120px;
+    color:gray;
+}
+
+.post-title{
+    flex:1;
+}
+
+.pagination{
+    margin-top:15px;
+    text-align:center;
+}
+
+.pagination span{
+    margin:0 5px;
+    cursor:pointer;
+}
+
+.pagination span:hover{
+    color:red;
+}
+</style>
 </head>
+
 <body>
-  <header>Korean Munich Community</header>
-  <a href="/" class="home-btn">홈</a>
 
-  <nav>
-    <div onclick="loadPosts('공지사항')">공지사항</div>
-    <div onclick="loadPosts('뮌유머')">뮌유머</div>
-    <div onclick="loadPosts('경기 및 전술 분석')">경기 및 전술 분석</div>
-    <div onclick="loadPosts('자유 게시판')">자유 게시판</div>
-  </nav>
+<div class="top-banner"></div>
 
-  <div id="content">
-    <div id="currentTopic">주제를 선택하세요</div>
-    <div id="postList"></div>
-  </div>
+<div class="container">
 
-  <!-- 글 작성 버튼 -->
-  <a href="/write.html" class="write-btn">+</a>
+<div class="sidebar">
+<div onclick="setTopic('공지사항')">공지사항</div>
+<div onclick="setTopic('전체')">전체</div>
+<div onclick="setTopic('뮌유머')">뮌유머</div>
+<div onclick="setTopic('경기 및 전술 분석')">경기 및 전술 분석</div>
+<div onclick="setTopic('자유 게시판')">자유 게시판</div>
+</div>
 
-  <script>
-    function loadPosts(topic) {
-      document.getElementById("currentTopic").innerText = "현재 주제: " + topic;
-      fetch("/api/posts?topic=" + encodeURIComponent(topic))
-        .then(res => res.json())
-        .then(posts => {
-          const list = document.getElementById("postList");
-          list.innerHTML = "";
-          if(posts.length === 0){
-            list.innerHTML = "<p>아직 글이 없습니다.</p>";
-          } else {
-            posts.forEach((p, i) => {
-              const div = document.createElement("div");
-              div.className = "post-title";
-              div.innerText = p.title;
-              div.onclick = () => {
-                window.location.href = "/post.html?index=" + i + "&topic=" + encodeURIComponent(topic);
-              };
-              list.appendChild(div);
-            });
-          }
-        });
+<div class="content">
+
+<div class="write-btn">
+<button onclick="location.href='write.html'">글 작성</button>
+<button onclick="location.href='index.html'">홈</button>
+</div>
+
+<div id="postList"></div>
+<div id="pagination" class="pagination"></div>
+
+</div>
+</div>
+
+<script>
+
+/* 임시 데이터 */
+let posts = [];
+
+let currentTopic = "전체";
+let currentPage = 1;
+const postsPerPage = 10;
+
+/* 주제 변경 */
+function setTopic(topic){
+    currentTopic = topic;
+    currentPage = 1;
+    render();
+}
+
+/* 필터 */
+function getFilteredPosts(){
+    if(currentTopic === "전체"){
+        return posts.filter(p => p.topic !== "공지사항");
     }
-  </script>
+    return posts.filter(p => p.topic === currentTopic);
+}
+
+/* 렌더 */
+function render(){
+    const list = document.getElementById("postList");
+    const pagination = document.getElementById("pagination");
+    list.innerHTML = "";
+    pagination.innerHTML = "";
+
+    const filtered = getFilteredPosts();
+
+    if(filtered.length === 0){
+        list.innerHTML = "<p>아직 글이 올라오지 않았습니다.</p>";
+        return;
+    }
+
+    const totalPages = Math.ceil(filtered.length / postsPerPage);
+    const start = (currentPage - 1) * postsPerPage;
+    const pagePosts = filtered.slice(start, start + postsPerPage);
+
+    pagePosts.forEach(post=>{
+        const row = document.createElement("div");
+        row.className = "post-row";
+        row.innerHTML = `
+            <div class="post-date">${post.date}</div>
+            <div class="post-title">${post.title}</div>
+        `;
+        row.onclick = ()=>{
+            localStorage.setItem("selectedPost", JSON.stringify(post));
+            location.href = "view.html";
+        };
+        list.appendChild(row);
+    });
+
+    /* 페이지 버튼 */
+    if(totalPages > 1){
+        if(currentPage > 1){
+            pagination.innerHTML += `<span onclick="goPage(1)"><<</span>`;
+            pagination.innerHTML += `<span onclick="goPage(${currentPage-1})"><</span>`;
+        }
+
+        let startNum = Math.max(1, currentPage - 2);
+        let endNum = Math.min(totalPages, startNum + 4);
+
+        for(let i = startNum; i <= endNum; i++){
+            pagination.innerHTML += `<span onclick="goPage(${i})">${i}</span>`;
+        }
+
+        if(currentPage < totalPages){
+            pagination.innerHTML += `<span onclick="goPage(${currentPage+1})">></span>`;
+            pagination.innerHTML += `<span onclick="goPage(${totalPages})">>></span>`;
+        }
+    }
+}
+
+function goPage(num){
+    currentPage = num;
+    render();
+}
+
+render();
+
+</script>
+
 </body>
 </html>
