@@ -7,9 +7,14 @@
 </head>
 <body>
 
+  <div class="banner">
+    <img src="kmc.jpg" alt="커뮤니티 배너">
+  </div>
+
   <div class="container">
     <!-- 주제 선택 박스 -->
     <div class="topics">
+      <h3>주제 선택</h3>
       <ul>
         <li>공지사항</li>
         <li>전체</li>
@@ -25,9 +30,9 @@
       <p class="date">2026-02-25</p>
       <div id="post-content">글 내용 표시</div>
 
-      <div class="buttons">
-        <button onclick="goWrite()">글 작성</button>
+      <div class="buttons-fixed">
         <button onclick="goHome()">홈</button>
+        <button onclick="goWrite()">글 작성</button>
         <button onclick="editPost()">수정</button>
         <button onclick="deletePost()">삭제</button>
       </div>
