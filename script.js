@@ -1,3 +1,8 @@
+// 커뮤니티 버튼
+function goCommunity() {
+  window.location.href = "community.html";
+}
+
 // 배경 슬라이드
 let bgIndex = 0;
 let backgrounds = document.querySelectorAll(".background-slider img");
@@ -12,8 +17,7 @@ function nextBackground() {
   showBackground(bgIndex);
 }
 
-// 7초마다 자동 전환
-setInterval(nextBackground, 7000);
+setInterval(nextBackground, 7000); // 7초마다 배경 변경
 
 // 선수 사진 슬라이드
 let playerIndex = 0;
@@ -43,5 +47,7 @@ function startAuto() {
 
 function resetAuto() {
   clearInterval(autoPlayer);
-  setTimeout(start
+  setTimeout(startAuto, 2000); // 2초 후 자동 재시작
+}
 
+startAuto();
