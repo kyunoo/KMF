@@ -37,12 +37,33 @@ body {
   padding: 20px;
 }
 
-.post-view {
-  flex: 1;
-  padding: 20px;
+.post-item {
+  border-bottom: 1px solid red;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.post-item:hover {
+  background: #f5f5f5;
 }
 
 .date {
   color: gray;
   text-align: right;
+}
+
+.pagination span {
+  margin: 0 5px;
+  cursor: pointer;
+  color: red;
+}
+.pagination span:hover {
+  text-decoration: underline;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+.buttons button {
+  margin-right: 10px;
 }
