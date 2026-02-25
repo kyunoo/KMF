@@ -1,172 +1,37 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>글 작성</title>
-
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:white;
-    padding:20px;
-}
-
-.container{
-    max-width:800px;
-    margin:auto;
-}
-
-h2{
-    border-bottom:2px solid red;
-    padding-bottom:5px;
-}
-
-input, textarea, select{
-    width:100%;
-    padding:8px;
-    margin-top:5px;
-    margin-bottom:15px;
-    border:1px solid #ccc;
-}
-
-textarea{
-    height:200px;
-    resize:none;
-}
-
-.buttons{
-    text-align:right;
-}
-
-button{
-    padding:8px 15px;
-    border:none;
-    cursor:pointer;
-}
-
-.submit{
-    background:red;
-    color:white;
-}
-
-.cancel{
-    background:gray;
-    color:white;
-}
-
-.top-buttons{
-    text-align:right;
-    margin-bottom:10px;
-}
-
-</style>
+  <meta charset="UTF-8">
+  <title>글 작성</title>
+  <link rel="stylesheet" href="community.css">
 </head>
-
 <body>
 
-<div class="container">
+  <h2>글 작성</h2>
 
-<div class="top-buttons">
-<button onclick="confirmExit()">홈</button>
-</div>
+  <label>주제 선택:</label>
+  <select id="topic">
+    <option>공지사항</option>
+    <option>뮌유머</option>
+    <option>경기 및 전술 분석</option>
+    <option>자유 게시판</option>
+  </select>
 
-<h2>글 작성</h2>
+  <label>제목:</label>
+  <input type="text" id="title" maxlength="50">
 
-<label>제목</label>
-<input type="text" id="title">
+  <label>내용:</label>
+  <textarea id="content" maxlength="500"></textarea>
 
-<label>주제</label>
-<select id="topic">
-<option>뮌유머</option>
-<option>경기 및 전술 분석</option>
-<option>자유 게시판</option>
-<option>공지사항</option>
-</select>
+  <label>사진 추가:</label>
+  <input type="file" id="image">
 
-<label>내용 (최대 500자)</label>
-<textarea id="content" maxlength="500"></textarea>
-<div id="counter">0 / 500</div>
+  <div class="buttons">
+    <button onclick="submitPost()">글 올리기</button>
+    <button onclick="cancelWrite()">취소</button>
+    <button onclick="goHome()">홈</button>
+  </div>
 
-<label>사진 추가</label>
-<input type="file" id="image" accept="image/*">
-
-<div class="buttons">
-<button class="submit" onclick="submitPost()">글 올리기</button>
-<button class="cancel" onclick="confirmExit()">취소</button>
-</div>
-
-</div>
-
-<script>
-
-/* 글자수 카운트 */
-const textarea = document.getElementById("content");
-const counter = document.getElementById("counter");
-
-textarea.addEventListener("input",()=>{
-    counter.textContent = textarea.value.length + " / 500";
-});
-
-/* 취소 확인 */
-function confirmExit(){
-    if(confirm("작성하던 글이 삭제됩니다. 나가시겠습니까?")){
-        location.href="community.html";
-    }
-}
-
-/* 글 저장 */
-function submitPost(){
-
-    const title = document.getElementById("title").value.trim();
-    const topic = document.getElementById("topic").value;
-    const content = textarea.value.trim();
-    const imageInput = document.getElementById("image");
-
-    if(!title || !content){
-        alert("제목과 내용을 입력하세요.");
-        return;
-    }
-
-    if(topic === "공지사항"){
-        const pw = prompt("공지사항은 관리자만 작성할 수 있습니다. 관리자 암호를 입력하세요.");
-        if(pw !== "1259"){
-            alert("암호가 틀렸습니다.");
-            return;
-        }
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = function(e){
-
-        let posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-        const newPost = {
-            id: Date.now(),
-            title,
-            topic,
-            content,
-            image: imageInput.files[0] ? e.target.result : null,
-            date: new Date().toLocaleDateString()
-        };
-
-        posts.unshift(newPost);
-        localStorage.setItem("posts", JSON.stringify(posts));
-
-        location.href="community.html";
-    };
-
-    if(imageInput.files[0]){
-        reader.readAsDataURL(imageInput.files[0]);
-    }else{
-        reader.onload({target:{result:null}});
-    }
-
-}
-
-</script>
-<script src="script.js"></script>
+  <script src="community.js"></script>
 </body>
 </html>
-
