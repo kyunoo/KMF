@@ -15,6 +15,7 @@
   <div class="container">
     <!-- 주제 선택 박스 -->
     <div class="topics">
+      <h3>주제 선택</h3>
       <ul>
         <li onclick="filterTopic('공지사항')">공지사항</li>
         <li onclick="filterTopic('전체')">전체</li>
@@ -26,16 +27,13 @@
 
     <!-- 글 목록 -->
     <div class="posts">
-      <div id="post-list">
-        아직 글이 올라오지 않았습니다.
-      </div>
-
-      <!-- 페이지네이션 -->
+      <h3>글 목록</h3>
+      <div id="post-list">아직 글이 올라오지 않았습니다.</div>
       <div class="pagination"></div>
     </div>
   </div>
 
-<!-- 하단 고정 버튼 -->
+  <!-- 하단 고정 버튼 -->
   <div class="buttons-fixed">
     <button onclick="goHome()">홈</button>
     <button onclick="goWrite()">글 작성</button>
@@ -44,4 +42,3 @@
   <script src="community.js"></script>
 </body>
 </html>
-
