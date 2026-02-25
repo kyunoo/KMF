@@ -1,247 +1,68 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Korean Munich Fan Page</title>
-
-<style>
-body{
-    margin:0;
-    overflow:hidden;
-    font-family:Arial, sans-serif;
-    color:white;
-}
-
-/* 배경 */
-.background{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background-size:cover;
-    background-position:center;
-    transition:opacity 2s ease;
-    z-index:-1;
-}
-
-.overlay{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.55);
-    z-index:-1;
-}
-
-/* 상단 제목 */
-.header{
-    position:absolute;
-    top:20px;
-    width:100%;
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
-}
-
-/* 왼쪽 메뉴 */
-.menu{
-    position:absolute;
-    top:120px;
-    left:50px;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
-
-.menu button{
-    background:rgba(200,0,0,0.8);
-    border:none;
-    padding:12px 25px;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:all 0.3s ease;
-}
-
-.menu button:hover{
-    transform:translateX(10px);
-    background:red;
-}
-
-/* 선수 슬라이드 */
-.player-container{
-    position:absolute;
-    right:100px;
-    bottom:80px;
-    width:500px;
-    height:650px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.player-container img{
-    max-height:100%;
-    max-width:100%;
-    position:absolute;
-    transition:opacity 1s ease;
-    opacity:0;
-}
-
-.player-container img.active{
-    opacity:1;
-}
-
-/* 슬라이드 버튼 */
-.slide-btn{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    font-size:40px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;
-}
-
-.prev{ left:-50px; }
-.next{ right:-50px; }
-
-/* 인스타 */
-.insta{
-    position:absolute;
-    bottom:20px;
-    right:20px;
-    font-size:14px;
-}
-.insta a{
-    color:white;
-    text-decoration:none;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Korean Munich Fan Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div id="bg1" class="background"></div>
-<div id="bg2" class="background"></div>
-<div class="overlay"></div>
+  <!-- 제목 -->
+  <div class="header">
+    Welcome to Korean Munich Fan Page
+  </div>
 
-<div class="header">
-Welcome to Korean Munich Fan Page
-</div>
+  <!-- 왼쪽 메뉴 -->
+  <div class="sidebar">
+    <button onclick="goCommunity()">커뮤니티</button>
+    <button onclick="alert('준비중입니다')">뮌헨의 역사</button>
+    <button onclick="alert('준비중입니다')">뮌뉴스</button>
+    <button onclick="alert('준비중입니다')">매치 센터</button>
+    <button onclick="alert('준비중입니다')">스토어</button>
+  </div>
 
-<div class="menu">
-<button onclick="location.href='community.html'">커뮤니티</button>
-<button onclick="alert('준비중입니다')">뮌헨의 역사</button>
-<button onclick="alert('준비중입니다')">뮌뉴스</button>
-<button onclick="alert('준비중입니다')">매치 센터</button>
-<button onclick="alert('준비중입니다')">스토어</button>
-</div>
+  <!-- 배경 슬라이드 -->
+  <div class="background-slider">
+    <img src="background1.jpg" class="bg active">
+    <img src="background2.jpg" class="bg">
+    <img src="background3.jpg" class="bg">
+  </div>
 
-<div class="player-container">
-<button class="slide-btn prev" onclick="prevPlayer()">‹</button>
-<button class="slide-btn next" onclick="nextPlayer()">›</button>
+  <!-- 선수 사진 슬라이드 -->
+  <div class="player-slider">
+    <div class="player-slide active"><img src="neuer.jpg"></div>
+    <div class="player-slide"><img src="ulreich.jpg"></div>
+    <div class="player-slide"><img src="urbig.jpg"></div>
+    <div class="player-slide"><img src="upamecano.jpg"></div>
+    <div class="player-slide"><img src="kim.jpg"></div>
+    <div class="player-slide"><img src="tah.jpg"></div>
+    <div class="player-slide"><img src="davies.jpg"></div>
+    <div class="player-slide"><img src="ito.jpg"></div>
+    <div class="player-slide"><img src="guerreiro.jpg"></div>
+    <div class="player-slide"><img src="goretzka.jpg"></div>
+    <div class="player-slide"><img src="musiala.jpg"></div>
+    <div class="player-slide"><img src="bischof.jpg"></div>
+    <div class="player-slide"><img src="laimer.jpg"></div>
+    <div class="player-slide"><img src="karl.jpg"></div>
+    <div class="player-slide"><img src="gnabry.jpg"></div>
+    <div class="player-slide"><img src="kane.jpg"></div>
+    <div class="player-slide"><img src="jackson.jpg"></div>
+    <div class="player-slide"><img src="diaz.jpg"></div>
+    <div class="player-slide"><img src="olise.jpg"></div>
+    <div class="player-slide"><img src="company.jpg"></div>
 
-<img src="images/neuer.png" class="player active">
-<img src="images/ulreich.png" class="player">
-<img src="images/urbig.png" class="player">
-<img src="images/upamecano.png" class="player">
-<img src="images/minjaekim.png" class="player">
-<img src="images/jonathantah.png" class="player">
-<img src="images/alphonsodavies.png" class="player">
-<img src="images/ito.png" class="player">
-<img src="images/guerreiro.png" class="player">
-<img src="images/goretzka.png" class="player">
-<img src="images/musiala.png" class="player">
-<img src="images/bischof.png" class="player">
-<img src="images/laimer.png" class="player">
-<img src="images/karl.png" class="player">
-<img src="images/gnabry.png" class="player">
-<img src="images/kane.png" class="player">
-<img src="images/jackson.png" class="player">
-<img src="images/diaz.png" class="player">
-<img src="images/olise.png" class="player">
-<img src="images/company.png" class="player">
+    <button class="prev" onclick="prevPlayer()">❮</button>
+    <button class="next" onclick="nextPlayer()">❯</button>
+  </div>
 
-</div>
+  <!-- 인스타 버튼 -->
+  <div class="bottom-right">
+    <a href="https://www.instagram.com/_bayern_times_kr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+      팬페이지 인스타
+    </a>
+  </div>
 
-<div class="insta">
-<a href="https://www.instagram.com/_bayern_times_kr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-펜페이지 인스타
-</a>
-</div>
-
-<script>
-/* 배경 슬라이드 */
-const backgrounds = [
-"images/bg1.jpg",
-"images/bg2.jpg",
-"images/bg3.jpg",
-"images/bg4.jpg",
-"images/bg5.jpg"
-];
-
-let bgIndex = 0;
-const bg1 = document.getElementById("bg1");
-const bg2 = document.getElementById("bg2");
-let showingFirst = true;
-
-bg1.style.backgroundImage = `url(${backgrounds[0]})`;
-bg1.style.opacity = 1;
-
-setInterval(()=>{
-    bgIndex = (bgIndex+1) % backgrounds.length;
-    if(showingFirst){
-        bg2.style.backgroundImage = `url(${backgrounds[bgIndex]})`;
-        bg2.style.opacity = 1;
-        bg1.style.opacity = 0;
-    }else{
-        bg1.style.backgroundImage = `url(${backgrounds[bgIndex]})`;
-        bg1.style.opacity = 1;
-        bg2.style.opacity = 0;
-    }
-    showingFirst = !showingFirst;
-},7000);
-
-
-/* 선수 슬라이드 */
-const players = document.querySelectorAll(".player");
-let current = 0;
-let autoSlide = setInterval(nextPlayer,5000);
-let pauseTimeout;
-
-function showPlayer(index){
-    players.forEach(p=>p.classList.remove("active"));
-    players[index].classList.add("active");
-}
-
-function nextPlayer(){
-    current = (current+1) % players.length;
-    showPlayer(current);
-}
-
-function prevPlayer(){
-    current = (current-1+players.length) % players.length;
-    showPlayer(current);
-}
-
-function pauseAuto(){
-    clearInterval(autoSlide);
-    clearTimeout(pauseTimeout);
-    pauseTimeout = setTimeout(()=>{
-        autoSlide = setInterval(nextPlayer,5000);
-    },2000);
-}
-
-document.querySelector(".prev").addEventListener("click",()=>{
-    prevPlayer();
-    pauseAuto();
-});
-document.querySelector(".next").addEventListener("click",()=>{
-    nextPlayer();
-    pauseAuto();
-});
-</script>
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
-
