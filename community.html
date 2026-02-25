@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>커뮤니티</title>
-  <link rel="stylesheet" href="community.css">
+  <link rel="stylesheet" href="communitystyle.css">
 </head>
 <body>
 
-  <!-- 상단 배너 (kmc 이미지 자리) -->
+  <!-- 상단 배너 -->
   <div class="banner">
     <img src="kmc.jpg" alt="커뮤니티 배너">
   </div>
@@ -31,15 +31,15 @@
       </div>
 
       <!-- 페이지네이션 -->
-      <div class="pagination">
-        << < 1,2,3,4,5... > >>
-      </div>
+      <div class="pagination"></div>
     </div>
   </div>
 
-  <!-- 글 작성 버튼 -->
-  <button onclick="goWrite()">글 작성</button>
-  <button onclick="goHome()">홈</button>
+  <!-- 버튼 -->
+  <div class="buttons">
+    <button onclick="goWrite()">글 작성</button>
+    <button onclick="goHome()">홈</button>
+  </div>
 
   <script src="community.js"></script>
 </body>
