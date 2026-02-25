@@ -54,3 +54,60 @@ function deletePost() {
     alert("권한이 없습니다.");
   }
 }
+
+// 페이지네이션 예시
+let posts = []; // 서버에서 받아온다고 가정
+let currentPage = 1;
+let postsPerPage = 10;
+
+function renderPosts(page) {
+  let postList = document.getElementById("post-list");
+  postList.innerHTML = "";
+
+  let start = (page - 1) * postsPerPage;
+  let end = start + postsPerPage;
+  let pagePosts = posts.slice(start, end);
+
+  if(pagePosts.length === 0) {
+    postList.innerHTML = "아직 글이 올라오지 않았습니다.";
+    return;
+  }
+
+  pagePosts.forEach(post => {
+    let div = document.createElement("div");
+    div.className = "post-item";
+    div.innerHTML = `<span class="date">${post.date}</span> <span class="title">${post.title}</span>`;
+    div.onclick = () => viewPost(post);
+    postList.appendChild(div);
+  });
+
+  renderPagination(page);
+}
+
+function renderPagination(page) {
+  let pagination = document.querySelector(".pagination");
+  pagination.innerHTML = "";
+
+  let totalPages = Math.ceil(posts.length / postsPerPage);
+
+  let first = document.createElement("span");
+  first.innerText = "<<";
+  first.onclick = () => renderPosts(1);
+  pagination.appendChild(first);
+
+  let prev = document.createElement("span");
+  prev.innerText = "<";
+  prev.onclick = () => {
+    if(page > 1) renderPosts(page - 1);
+  };
+  pagination.appendChild(prev);
+
+  let startPage = Math.floor((page-1)/5)*5 + 1;
+  let endPage = Math.min(startPage + 4, totalPages);
+
+  for(let i=startPage; i<=endPage; i++) {
+    let num = document.createElement("span");
+    num.innerText = i;
+    if(i === page) num.style.fontWeight = "bold";
+    num.onclick = () => renderPosts(i);
+    pagination.append
