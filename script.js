@@ -17,7 +17,7 @@ function nextBackground() {
   showBackground(bgIndex);
 }
 
-setInterval(nextBackground, 7000); // 7초마다 배경 변경
+setInterval(nextBackground, 10000); // 7초마다 배경 변경
 
 // 선수 사진 슬라이드
 let playerIndex = 0;
@@ -51,3 +51,4 @@ function resetAuto() {
 }
 
 startAuto();
+
