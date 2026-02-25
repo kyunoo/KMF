@@ -1,57 +1,73 @@
 body {
-  background: white;
+  background: #fff;
   font-family: Arial, sans-serif;
+  margin: 0;
 }
 
+/* 배너 */
 .banner img {
   width: 100%;
-  height: 150px;
+  height: 280px; /* 크게 확대 */
   object-fit: cover;
+  border-bottom: 3px solid red; /* 구분선 */
 }
 
+/* 레이아웃 */
 .container {
   display: flex;
+  margin-top: 20px;
 }
 
+/* 주제 박스 */
 .topics {
-  width: 200px;
-  border-right: 1px solid red;
+  width: 220px;
+  border-right: 2px solid red;
+  padding: 10px;
 }
-
 .topics ul {
   list-style: none;
   padding: 0;
 }
-
 .topics li {
-  padding: 10px;
+  padding: 12px;
   cursor: pointer;
+  border-bottom: 1px solid #eee;
 }
-
 .topics li:hover {
-  background: #f5f5f5;
+  background: #ffe5e5;
 }
 
+/* 글 목록 */
 .posts {
   flex: 1;
   padding: 20px;
 }
-
 .post-item {
-  border-bottom: 1px solid red;
-  padding: 5px;
-  cursor: pointer;
+  border: 1px solid #ddd;
+  border-left: 4px solid red;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #fafafa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .post-item:hover {
-  background: #f5f5f5;
+  background: #fff0f0;
 }
-
 .date {
   color: gray;
-  text-align: right;
+  font-size: 12px;
+  float: right;
+}
+.title {
+  font-weight: bold;
+  display: block;
 }
 
+/* 페이지네이션 */
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
 .pagination span {
   margin: 0 5px;
   cursor: pointer;
@@ -61,9 +77,24 @@ body {
   text-decoration: underline;
 }
 
-.buttons {
-  margin-top: 20px;
+/* 하단 버튼 */
+.buttons-fixed {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
-.buttons button {
-  margin-right: 10px;
+.buttons-fixed button {
+  margin-left: 10px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(45deg,#dc052d,#a80000);
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.buttons-fixed button:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(45deg,#ff1e46,#cc0000);
 }
