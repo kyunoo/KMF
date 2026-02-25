@@ -1,3 +1,7 @@
+let posts = []; // 글 목록 저장
+let currentPage = 1;
+let postsPerPage = 10;
+
 function goWrite() {
   window.location.href = "write.html";
 }
@@ -24,34 +28,11 @@ function submitPost() {
     return;
   }
 
-  alert("글이 등록되었습니다.");
-  window.location.href = "community.html";
-}
-
-function cancelWrite() {
-  if(confirm("작성하던 글이 삭제됩니다. 나가시겠습니까?")) {
-    window.location.href = "community.html";
-  }
-}
-
-function editPost() {
-  let password = prompt("수정 권한 암호를 입력하세요.");
-  if(password === "1259") {
-    alert("수정 가능합니다.");
-  } else {
-    alert("권한이 없습니다.");
-  }
-}
-
-function deletePost() {
-  let password = prompt("삭제 권한 암호를 입력하세요.");
-  if(password === "1259") {
-    alert("삭제되었습니다.");
-    window.location.href = "community.html";
-  } else {
-    alert("권한이 없습니다.");
-  }
-}
-
-// 페이지네이션 예시
-let posts = []; // 서버에서 받아온다고
+  let newPost = {
+    title: title,
+    content: content,
+    date: new Date().toISOString().slice(0,10),
+    topic: topic,
+    author: "익명" + (posts.length+1)
+  };
+  posts.push
