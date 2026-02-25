@@ -7,29 +7,35 @@
 </head>
 <body>
 
-  <h2>글 작성</h2>
+  <div class="banner">
+    <img src="kmc.jpg" alt="커뮤니티 배너">
+  </div>
 
-  <label>주제 선택:</label>
-  <select id="topic">
-    <option>공지사항</option>
-    <option>뮌유머</option>
-    <option>경기 및 전술 분석</option>
-    <option>자유 게시판</option>
-  </select>
+  <div class="write-container">
+    <h2>글 작성</h2>
 
-  <label>제목:</label>
-  <input type="text" id="title" maxlength="50">
+    <label>주제 선택:</label>
+    <select id="topic">
+      <option>공지사항</option>
+      <option>뮌유머</option>
+      <option>경기 및 전술 분석</option>
+      <option>자유 게시판</option>
+    </select>
 
-  <label>내용:</label>
-  <textarea id="content" maxlength="500"></textarea>
+    <label>제목:</label>
+    <input type="text" id="title" maxlength="50">
 
-  <label>사진 추가:</label>
-  <input type="file" id="image">
+    <label>내용:</label>
+    <textarea id="content" maxlength="500"></textarea>
 
-  <div class="buttons">
-    <button onclick="submitPost()">글 올리기</button>
-    <button onclick="cancelWrite()">취소</button>
-    <button onclick="goHome()">홈</button>
+    <label>사진 추가:</label>
+    <input type="file" id="image">
+
+    <div class="buttons-fixed">
+      <button onclick="goHome()">홈</button>
+      <button onclick="submitPost()">글 올리기</button>
+      <button onclick="cancelWrite()">취소</button>
+    </div>
   </div>
 
   <script src="community.js"></script>
