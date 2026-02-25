@@ -1,15 +1,19 @@
 // 배경 슬라이드
 let bgIndex = 0;
 let backgrounds = document.querySelectorAll(".background-slider img");
+
 function showBackground(i) {
   backgrounds.forEach(bg => bg.classList.remove("active"));
   backgrounds[i].classList.add("active");
 }
+
 function nextBackground() {
   bgIndex = (bgIndex + 1) % backgrounds.length;
   showBackground(bgIndex);
 }
-setInterval(nextBackground, 7000); // 7초마다 배경 변경
+
+// 7초마다 자동 전환
+setInterval(nextBackground, 7000);
 
 // 선수 사진 슬라이드
 let playerIndex = 0;
@@ -40,3 +44,4 @@ function startAuto() {
 function resetAuto() {
   clearInterval(autoPlayer);
   setTimeout(start
+
