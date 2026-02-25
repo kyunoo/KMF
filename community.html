@@ -22,7 +22,6 @@ body{
     padding:20px;
 }
 
-/* 왼쪽 주제 */
 .sidebar{
     width:220px;
     border-right:1px solid red;
@@ -39,7 +38,6 @@ body{
     background:#ffe5e5;
 }
 
-/* 오른쪽 글 목록 */
 .content{
     flex:1;
     padding-left:20px;
@@ -119,29 +117,28 @@ body{
 
 <script>
 
-/* 임시 데이터 */
-let posts = [];
-
 let currentTopic = "전체";
 let currentPage = 1;
 const postsPerPage = 10;
 
-/* 주제 변경 */
+function getPosts(){
+    return JSON.parse(localStorage.getItem("posts")) || [];
+}
+
 function setTopic(topic){
     currentTopic = topic;
     currentPage = 1;
     render();
 }
 
-/* 필터 */
 function getFilteredPosts(){
+    const posts = getPosts();
     if(currentTopic === "전체"){
         return posts.filter(p => p.topic !== "공지사항");
     }
     return posts.filter(p => p.topic === currentTopic);
 }
 
-/* 렌더 */
 function render(){
     const list = document.getElementById("postList");
     const pagination = document.getElementById("pagination");
@@ -167,14 +164,14 @@ function render(){
             <div class="post-title">${post.title}</div>
         `;
         row.onclick = ()=>{
-            localStorage.setItem("selectedPost", JSON.stringify(post));
+            localStorage.setItem("selectedPostId", post.id);
             location.href = "view.html";
         };
         list.appendChild(row);
     });
 
-    /* 페이지 버튼 */
     if(totalPages > 1){
+
         if(currentPage > 1){
             pagination.innerHTML += `<span onclick="goPage(1)"><<</span>`;
             pagination.innerHTML += `<span onclick="goPage(${currentPage-1})"><</span>`;
