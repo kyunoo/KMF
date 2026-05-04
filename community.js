@@ -1,15 +1,3 @@
-let posts = []; // 글 목록 저장
-let currentPage = 1;
-let postsPerPage = 10;
-
-function goWrite() {
-  window.location.href = "write.html";
-}
-
-function goHome() {
-  window.location.href = "index.html";
-}
-
 function submitPost() {
   let topic = document.getElementById("topic").value;
   let title = document.getElementById("title").value;
@@ -35,4 +23,12 @@ function submitPost() {
     topic: topic,
     author: "익명" + (posts.length+1)
   };
-  posts.push
+
+  posts.push(newPost);
+
+  // 저장
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  alert("글 작성 완료");
+  window.location.href = "index.html";
+}
